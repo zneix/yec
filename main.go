@@ -2,6 +2,7 @@ package yec
 
 import (
 	"bytes"
+	"strings"
 	//"fmt"
 	"io"
 	"os"
@@ -17,18 +18,27 @@ type Yec struct {
 	appName    string
 	configName string
 
+	envKeyReplacer StringReplacer
+
 	config map[string]interface{}
 	env    map[string][]string
+}
+
+// StringReplacer applies a set of replacements to a string.
+type StringReplacer interface {
+	// Replace returns a copy of s with all replacements performed.
+	Replace(s string) string
 }
 
 // New returns an initialized Yec instance with default values
 // to override these, use methods starting with Set
 func New(name string) *Yec {
 	return &Yec{
-		appName:    name,
-		configName: "config",
-		config:     make(map[string]interface{}),
-		env:        make(map[string][]string),
+		appName:        name,
+		configName:     "config",
+		envKeyReplacer: strings.NewReplacer("_", "-"),
+		config:         make(map[string]interface{}),
+		env:            make(map[string][]string),
 	}
 }
 
