@@ -21,7 +21,7 @@ type myConfig struct {
 
 func main() {
 	y := yec.New("myapplication")
-	y.ReadInConfig()
+	y.ReadConfig()
 
 	var cfg myConfig
 	y.Unmarshal(&cfg)
